@@ -1,7 +1,8 @@
 "use strict";
 
 // Selectors
-
+const header = document.querySelector(".header");
+const nav = document.querySelector(".nav");
 const modal = document.querySelector(".modal");
 const overlay = document.querySelector(".overlay");
 const btnCloseModal = document.querySelector(".btn--close-modal");
@@ -103,3 +104,27 @@ navLinks.addEventListener("mouseout", () => {
     item.style.opacity = 1;
   });
 });
+
+////////////////////////////////////////////////////
+// Sticky navigation
+
+const navHeight = nav.getBoundingClientRect().height;
+
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) {
+        nav.classList.remove("sticky");
+      } else {
+        nav.classList.add("sticky");
+      }
+    });
+  },
+  {
+    threshold: 0,
+    root: null,
+    rootMargin: `-${navHeight}px`,
+  }
+);
+
+observer.observe(header);
