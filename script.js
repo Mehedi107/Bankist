@@ -8,6 +8,8 @@ const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
 
+
+
 const openModal = function (e) {
   e.preventDefault()
   modal.classList.remove('hidden');
@@ -49,4 +51,27 @@ document.querySelector('.nav__links').addEventListener('click', function (e) {
     const id = e.target.getAttribute('href')
     document.querySelector(id).scrollIntoView({behavior:'smooth'})
   }
+})
+
+// Active tab
+const btnTabContainer = document.querySelector('.operations__tab-container')
+const btnTabAll = document.querySelectorAll('.operations__tab')
+const tabContentAll = document.querySelectorAll('.operations__content')
+
+btnTabContainer.addEventListener('click', function(e) {
+  const tab = e.target.closest('.operations__tab')
+
+  // Guard clause
+  if(!tab) return;
+
+  // Remove active class
+  btnTabAll.forEach(tab => tab.classList.remove('operations__tab--active'))
+  tabContentAll.forEach(content => content.classList.remove('operations__content--active'))
+
+  // Add active class to tab
+  tab.classList.add('operations__tab--active')
+  
+  // Add active class to content
+  document.querySelector(`.operations__content--${tab.dataset.tab}`).classList.add('operations__content--active')
+
 })
