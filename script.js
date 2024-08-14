@@ -11,6 +11,7 @@ const btnLoadMore = document.querySelector('.btn--scroll-to');
 const section1 = document.querySelector('#section--1');
 const navLinks = document.querySelector('.nav__links');
 const allSection = document.querySelectorAll('.section');
+const featureImgAll = document.querySelectorAll('.features__img');
 
 /////////////////////////////////////////////
 // Modal window
@@ -157,3 +158,24 @@ allSection.forEach((section) => {
   section.classList.add('section--hidden');
   sectionObserver.observe(section);
 });
+
+////////////////////////////////////////////////////
+// Lazy load for images
+
+const imageCallback = (entries, observer) => {
+  const [entry] = entries;
+
+  entry.target.src = entry.target.dataset.src;
+  entry.target.addEventListener('load', () =>
+    entry.target.classList.remove('lazy-img')
+  );
+
+  observer.unobserve(entry.target);
+};
+
+const imageObserver = new IntersectionObserver(imageCallback, {
+  root: null,
+  threshold: 0,
+});
+
+featureImgAll.forEach((img) => imageObserver.observe(img));
