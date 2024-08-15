@@ -155,7 +155,7 @@ const sectionObserver = new IntersectionObserver(
 );
 
 allSection.forEach((section) => {
-  section.classList.add('section--hidden');
+  // section.classList.add('section--hidden');
   sectionObserver.observe(section);
 });
 
@@ -179,3 +179,82 @@ const imageObserver = new IntersectionObserver(imageCallback, {
 });
 
 featureImgAll.forEach((img) => imageObserver.observe(img));
+
+////////////////////////////////////////////////////
+// Testimonial Slider
+
+const slideAll = document.querySelectorAll('.slide');
+const btnSliderLeft = document.querySelector('.slider__btn--left');
+const btnSliderRight = document.querySelector('.slider__btn--right');
+const sliderDotsContainer = document.querySelector('.dots');
+
+let currentSlide = 0;
+const totalSlide = slideAll.length;
+
+// Create slider dots
+const createDots = () => {
+  slideAll.forEach((_, i) => {
+    sliderDotsContainer.insertAdjacentHTML(
+      'beforeend',
+      `<button class="dots__dot" data-slide="${i}"></button>`
+    );
+  });
+};
+createDots();
+
+// Activate the current dot
+const setActiveDot = function (dot) {
+  // Remove active class from all dots
+  dotAll.forEach((d) => {
+    d.classList.remove('dots__dot--active');
+  });
+
+  // Add active class to active dot
+  document
+    .querySelector(`.dots__dot[data-slide='${dot}']`)
+    .classList.add('dots__dot--active');
+};
+
+const dotAll = document.querySelectorAll('.dots__dot');
+
+dotAll.forEach((d) => {
+  d.addEventListener('click', function (e) {
+    updateSlide(e.target.dataset.slide);
+    setActiveDot(e.target.dataset.slide);
+  });
+});
+
+// Update Slide Position
+const updateSlide = function (s) {
+  slideAll.forEach((slide, i) => {
+    slide.style.transform = `translateX(${100 * (i - s)}%)`;
+  });
+
+  setActiveDot(currentSlide);
+};
+updateSlide(currentSlide);
+
+// Slide Next
+const slideNext = () => {
+  if (currentSlide === totalSlide - 1) currentSlide = 0;
+  else currentSlide++;
+
+  updateSlide(currentSlide);
+};
+
+// Slide Prev
+const slidePrev = () => {
+  if (currentSlide === 0) currentSlide = totalSlide - 1;
+  else currentSlide--;
+
+  updateSlide(currentSlide);
+};
+
+btnSliderRight.addEventListener('click', slideNext);
+btnSliderLeft.addEventListener('click', slidePrev);
+
+// Keyboard navigation
+document.addEventListener('keydown', function (e) {
+  e.key === 'ArrowLeft' && slidePrev();
+  e.key === 'ArrowRight' && slideNext();
+});
