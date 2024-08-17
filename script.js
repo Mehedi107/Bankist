@@ -155,7 +155,7 @@ const sectionObserver = new IntersectionObserver(
 );
 
 allSection.forEach((section) => {
-  // section.classList.add('section--hidden');
+  section.classList.add('section--hidden');
   sectionObserver.observe(section);
 });
 
@@ -257,4 +257,12 @@ btnSliderLeft.addEventListener('click', slidePrev);
 document.addEventListener('keydown', function (e) {
   e.key === 'ArrowLeft' && slidePrev();
   e.key === 'ArrowRight' && slideNext();
+});
+
+document.addEventListener('DOMContentLoaded', function (e) {
+  console.log('Loaded');
+});
+
+window.addEventListener('load', function (e) {
+  console.log('load');
 });
